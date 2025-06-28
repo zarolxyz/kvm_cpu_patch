@@ -31,7 +31,6 @@ This KVM kernel module patch helps evade CPU-based virtual machine detection and
 **Mandatory: 1:1 vCPU-to-host-logical-CPU binding**  
 Example for Intel i9-13900K (24 cores, 32 threads):
 
-<cputune>
     <vcpupin vcpu="0" cpuset="0"/>
     <vcpupin vcpu="1" cpuset="1"/>
     <vcpupin vcpu="2" cpuset="2"/>
@@ -64,7 +63,6 @@ Example for Intel i9-13900K (24 cores, 32 threads):
     <vcpupin vcpu="29" cpuset="29"/>
     <vcpupin vcpu="30" cpuset="30"/>
     <vcpupin vcpu="31" cpuset="31"/>
-  </cputune>
 
 **Note**: The patch ignores QEMU topology settings and enforces host topology alignment. All vCPUs should be configured as logical cores.
 
