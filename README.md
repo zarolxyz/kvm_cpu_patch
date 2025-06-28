@@ -18,47 +18,7 @@
 安装编译好的kvm模块。
 请注意libvirt启动参数：
 必须在xml中 1:1 绑定VCPU与主机逻辑CPU，否则虚拟机不可能启动。
-以i9 13900k为例，它有24个核心，32个线程，无需关心核心数量，也无需关注大小核心差异，xml中应添加如下内容：
+以i9 13900k为例，它有24个核心，32个线程，无需关心核心数量，也无需关注大小核心间差异，所以需要在xml中创建32个VCPU，每个VCPU绑定一个主机逻辑CPU
 
-<cputune>
-    <vcpupin vcpu="0" cpuset="0"/>
-    <vcpupin vcpu="1" cpuset="1"/>
-    <vcpupin vcpu="2" cpuset="2"/>
-    <vcpupin vcpu="3" cpuset="3"/>
-    <vcpupin vcpu="4" cpuset="4"/>
-    <vcpupin vcpu="5" cpuset="5"/>
-    <vcpupin vcpu="6" cpuset="6"/>
-    <vcpupin vcpu="7" cpuset="7"/>
-    <vcpupin vcpu="8" cpuset="8"/>
-    <vcpupin vcpu="9" cpuset="9"/>
-    <vcpupin vcpu="10" cpuset="10"/>
-    <vcpupin vcpu="11" cpuset="11"/>
-    <vcpupin vcpu="12" cpuset="12"/>
-    <vcpupin vcpu="13" cpuset="13"/>
-    <vcpupin vcpu="14" cpuset="14"/>
-    <vcpupin vcpu="15" cpuset="15"/>
-    <vcpupin vcpu="16" cpuset="16"/>
-    <vcpupin vcpu="17" cpuset="17"/>
-    <vcpupin vcpu="18" cpuset="18"/>
-    <vcpupin vcpu="19" cpuset="19"/>
-    <vcpupin vcpu="20" cpuset="20"/>
-    <vcpupin vcpu="21" cpuset="21"/>
-    <vcpupin vcpu="22" cpuset="22"/>
-    <vcpupin vcpu="23" cpuset="23"/>
-    <vcpupin vcpu="24" cpuset="24"/>
-    <vcpupin vcpu="25" cpuset="25"/>
-    <vcpupin vcpu="26" cpuset="26"/>
-    <vcpupin vcpu="27" cpuset="27"/>
-    <vcpupin vcpu="28" cpuset="28"/>
-    <vcpupin vcpu="29" cpuset="29"/>
-    <vcpupin vcpu="30" cpuset="30"/>
-    <vcpupin vcpu="31" cpuset="31"/>
-  </cputune>
-
-  kvm补丁将忽略qemu设置的拓扑信息而强制与宿主保持一致，xml中可以这样设置拓扑：
-
-  <topology sockets="1" cores="1" threads="32"/>
-
-  即全部核心为逻辑核心。
-
-  若要开启Hyper V嵌套虚拟化，无需额外添加-level=30来降级cpuid，此参数会被忽略，补丁会直通HyperV嵌套所需的cpuid信息。
+并且kvm补丁将忽略qemu设置的拓扑信息而强制与宿主保持一致，可以把全部核心设置为逻辑核心。
+若要开启Hyper V嵌套虚拟化，无需额外添加-level=30来降级cpuid，此参数会被忽略，补丁会直通HyperV嵌套所需的cpuid信息。
